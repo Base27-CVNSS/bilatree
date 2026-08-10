@@ -1,8 +1,14 @@
 {
   "name": "treelike-root",
   "private": true,
-  "homepage": "https://github.com/irislib/treelike",
-  "documentation": "https://treelike.iris.to",
+  "description": "BilaTree — cây trạng thái có thể đăng ký, lưu cục bộ và đồng bộ qua Nostr",
+  "homepage": "https://base27-cvnss.github.io/bilatree/",
+  "documentation": "https://base27-cvnss.github.io/bilatree/#tai-lieu",
+  "author": "Martti Malmi",
+  "contributors": [
+    "Long Ngo <Base27-CVNSS> (Vietnamese edition and enhancements)"
+  ],
+  "license": "MIT",
   "workspaces": [
     "treelike",
     "treelike-nostr",
@@ -10,6 +16,8 @@
   ],
   "scripts": {
     "build": "npm run build --workspace=treelike && npm run build --workspace=treelike-nostr && npm run build --workspace=treelike-hooks",
+    "test": "npm run test --workspaces --if-present -- --run",
+    "site:check": "node --check site/app.js",
     "docs": "typedoc",
     "lint": "eslint --ext .ts,.tsx --fix ."
   },

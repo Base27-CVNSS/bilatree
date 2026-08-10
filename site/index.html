@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="vi" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <title>BilaTree — Cây trạng thái thời gian thực cho web phi tập trung</title>
+    <meta
+      name="description"
+      content="BilaTree là thư viện TypeScript mã nguồn mở giúp lưu, đăng ký và đồng bộ trạng thái qua localStorage, nhiều tab trình duyệt, React và Nostr."
+    />
+    <meta
+      name="keywords"
+      content="BilaTree, Treelike, TypeScript, Nostr, React, local-first, trạng thái thời gian thực, mã nguồn mở Việt Nam"
+    />
+    <meta name="author" content="Long Ngo, Base27-CVNSS" />
+    <meta name="theme-color" content="#07110f" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f3f7f5" media="(prefers-color-scheme: light)" />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="canonical" href="https://base27-cvnss.github.io/bilatree/" />
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+    <link rel="apple-touch-icon" href="./assets/favicon.svg" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./styles.css" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:site_name" content="BilaTree" />
+    <meta property="og:title" content="BilaTree — Trạng thái như một cái cây" />
+    <meta
+      property="og:description"
+      content="Ghi một lần, lắng nghe mọi nơi: từ bộ nhớ, trình duyệt đến mạng Nostr."
+    />
+    <meta property="og:url" content="https://base27-cvnss.github.io/bilatree/" />
+    <meta
+      property="og:image"
+      content="https://base27-cvnss.github.io/bilatree/assets/social-preview.png"
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BilaTree — Trạng thái như một cái cây" />
+    <meta
+      name="twitter:description"
+      content="Thư viện TypeScript local-first, có thể đăng ký và đồng bộ qua Nostr."
+    />
+    <meta
+      name="twitter:image"
+      content="https://base27-cvnss.github.io/bilatree/assets/social-preview.png"
+    />
+
+    <script>
+      (() => {
+        const saved = localStorage.getItem('bilatree-theme');
+        const preferred = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        document.documentElement.dataset.theme = saved || preferred;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#noi-dung">Đi thẳng đến nội dung</a>
+
+    <svg class="icon-sprite" aria-hidden="true">
+      <symbol id="i-home" viewBox="0 0 24 24">
+        <path d="M3 11.5 12 4l9 7.5v8a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" />
+      </symbol>
+      <symbol id="i-tree" viewBox="0 0 24 24">
+        <circle cx="12" cy="5" r="2.5" />
+        <circle cx="6" cy="18.5" r="2.5" />
+        <circle cx="18" cy="18.5" r="2.5" />
+        <path d="M12 7.5v4m0 0H6v4.5m6-4.5h6v4.5" />
+      </symbol>
+      <symbol id="i-sync" viewBox="0 0 24 24">
+        <path d="M20 7h-6V1M4 17h6v6M19 13a7 7 0 0 1-12 5l-3-3m1-4A7 7 0 0 1 17 6l3 3" />
+      </symbol>
+      <symbol id="i-code" viewBox="0 0 24 24">
+        <path d="m8 5-6 7 6 7m8-14 6 7-6 7M14 3l-4 18" />
+      </symbol>
+      <symbol id="i-github" viewBox="0 0 24 24">
+        <path
+          d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.88c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.64-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.82a9.6 9.6 0 0 1 2.5.34c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.86v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"
+        />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-4-4" />
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4" />
+        <path
+          d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"
+        />
+      </symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24">
+        <path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5a8.5 8.5 0 1 0 12 12Z" />
+      </symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24">
+        <rect x="8" y="8" width="12" height="12" rx="2" />
+        <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" /></symbol>
+      <symbol id="i-terminal" viewBox="0 0 24 24">
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="m6 9 3 3-3 3m6 0h5" />
+      </symbol>
+      <symbol id="i-database" viewBox="0 0 24 24">
+        <ellipse cx="12" cy="5" rx="8" ry="3" />
+        <path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6" />
+      </symbol>
+      <symbol id="i-radio" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="2" />
+        <path
+          d="M8.46 8.46a5 5 0 0 0 0 7.08m7.08-7.08a5 5 0 0 1 0 7.08M5.64 5.64a9 9 0 0 0 0 12.72m12.72-12.72a9 9 0 0 1 0 12.72"
+        />
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <path d="M12 2 4 5v6c0 5 3.4 9.65 8 11 4.6-1.35 8-6 8-11V5z" />
+        <path d="m8.5 12 2.2 2.2 4.8-5" />
+      </symbol>
+      <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3 2" />
+      </symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24">
+        <path d="M4 7h16M9 7V4h6v3m3 0-1 14H7L6 7m4 4v6m4-6v6" />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></symbol>
+      <symbol id="i-external" viewBox="0 0 24 24">
+        <path d="M14 4h6v6M20 4 10 14M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6" />
+      </symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24">
+        <path
+          d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"
+        />
+      </symbol>
+    </svg>
+
+    <header class="mobile-header">
+      <button
+        class="icon-button"
+        id="mobile-menu-button"
+        type="button"
+        aria-label="Mở trình đơn"
+        aria-expanded="false"
+      >
+        <svg><use href="#i-menu" /></svg>
+      </button>
+      <a class="brand compact" href="#tong-quan" aria-label="BilaTree - Trang đầu">
+        <img src="./assets/logo.svg" alt="" />
+        <span>BilaTree</span>
+      </a>
+      <button class="icon-button theme-toggle" type="button" aria-label="Đổi giao diện sáng tối">
+        <svg class="sun-icon"><use href="#i-sun" /></svg>
+        <svg class="moon-icon"><use href="#i-moon" /></svg>
+      </button>
+    </header>
+
+    <div class="app-shell">
+      <aside class="left-sidebar" id="left-sidebar" aria-label="Điều hướng chính">
+        <div class="left-inner">
+          <div class="sidebar-heading">
+            <a class="brand" href="#tong-quan" aria-label="BilaTree - Trang đầu">
+              <img src="./assets/logo.svg" alt="" />
+              <div><strong>BilaTree</strong><small>Trạng thái sống</small></div>
+            </a>
+            <button
+              class="icon-button close-menu"
+              id="close-menu"
+              type="button"
+              aria-label="Đóng trình đơn"
+            >
+              <svg><use href="#i-x" /></svg>
+            </button>
+          </div>
+
+          <nav class="main-nav" aria-label="Điều hướng bên">
+            <a class="nav-link active" href="#tong-quan" data-section="tong-quan">
+              <svg><use href="#i-home" /></svg><span>Tổng quan</span>
+            </a>
+            <a class="nav-link" href="#phong-thu" data-section="phong-thu">
+              <svg><use href="#i-tree" /></svg><span>Phòng thử cây</span
+              ><span class="nav-badge">Live</span>
+            </a>
+            <a class="nav-link" href="#kien-truc" data-section="kien-truc">
+              <svg><use href="#i-sync" /></svg><span>Kiến trúc</span>
+            </a>
+            <a class="nav-link" href="#tai-lieu" data-section="tai-lieu">
+              <svg><use href="#i-code" /></svg><span>Tài liệu</span>
+            </a>
+            <a
+              class="nav-link"
+              href="https://github.com/Base27-CVNSS/bilatree"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <svg><use href="#i-github" /></svg><span>GitHub</span
+              ><svg class="external"><use href="#i-external" /></svg>
+            </a>
+          </nav>
+
+          <div class="sidebar-card">
+            <span class="eyebrow"><span class="live-dot"></span>MÃ NGUỒN MỞ</span>
+            <strong>Học, sửa và triển khai tự do.</strong>
+            <p>MIT · TypeScript · Nostr</p>
+            <a href="https://github.com/Base27-CVNSS/bilatree" target="_blank" rel="noreferrer"
+              >Xem kho mã <svg><use href="#i-chevron" /></svg
+            ></a>
+          </div>
+
+          <div class="sidebar-footer">
+            <span>Phát triển bởi <strong>Long Ngo</strong></span>
+            <button
+              class="icon-button theme-toggle"
+              type="button"
+              aria-label="Đổi giao diện sáng tối"
+            >
+              <svg class="sun-icon"><use href="#i-sun" /></svg>
+              <svg class="moon-icon"><use href="#i-moon" /></svg>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <main id="noi-dung" class="main-content">
+        <section id="tong-quan" class="hero section-anchor">
+          <div class="hero-glow"></div>
+          <div class="hero-content">
+            <div class="pill">
+              <span class="live-dot"></span> local-first · có thể đăng ký · đa phương thức
+            </div>
+            <h1>Trạng thái như<br />một <span>cái cây.</span></h1>
+            <p class="hero-copy">
+              Ghi dữ liệu tại một nút. Lắng nghe thay đổi ở bất cứ đâu. Đồng bộ từ bộ nhớ, nhiều tab
+              trình duyệt đến mạng Nostr bằng cùng một API nhỏ gọn.
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="#phong-thu"
+                ><svg><use href="#i-tree" /></svg>Thử trực tiếp</a
+              >
+              <a
+                class="button secondary"
+                href="https://github.com/Base27-CVNSS/bilatree"
+                target="_blank"
+                rel="noreferrer"
+                ><svg><use href="#i-github" /></svg>Xem mã nguồn</a
+              >
+            </div>
+            <div class="install-command" role="group" aria-label="Lệnh cài đặt BilaTree">
+              <svg><use href="#i-terminal" /></svg>
+              <code>npm install treelike</code>
+              <button
+                class="copy-button"
+                type="button"
+                data-copy="npm install treelike"
+                aria-label="Sao chép lệnh cài đặt"
+              >
+                <svg><use href="#i-copy" /></svg><span>Sao chép</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="hero-tree" role="img" aria-label="Minh họa cây dữ liệu đồng bộ">
+            <div class="orbit orbit-one"></div>
+            <div class="orbit orbit-two"></div>
+            <div class="tree-node root-node">
+              <img src="./assets/logo.svg" alt="" /><span>/</span>
+            </div>
+            <div class="connector connector-a"></div>
+            <div class="connector connector-b"></div>
+            <div class="connector connector-c"></div>
+            <div class="tree-node node-a">
+              <svg><use href="#i-database" /></svg><span>cục bộ</span>
+            </div>
+            <div class="tree-node node-b">
+              <svg><use href="#i-radio" /></svg><span>Nostr</span>
+            </div>
+            <div class="tree-node node-c">
+              <svg><use href="#i-code" /></svg><span>React</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="metrics" aria-label="Thông số dự án">
+          <div><strong>03</strong><span>gói TypeScript</span></div>
+          <div><strong>06</strong><span>adapter tích hợp</span></div>
+          <div><strong>&lt; 10</strong><span>API cốt lõi</span></div>
+          <div><strong>MIT</strong><span>tự do sử dụng</span></div>
+        </section>
+
+        <section id="phong-thu" class="content-section section-anchor">
+          <div class="section-intro">
+            <span class="kicker">PHÒNG THỬ TƯƠNG TÁC</span>
+            <h2>Nhìn dữ liệu lớn lên theo từng nhánh.</h2>
+            <p>
+              Mọi thay đổi bên dưới được lưu trên máy bạn. Mở trang trong hai tab để xem đồng bộ tức
+              thời qua BroadcastChannel.
+            </p>
+          </div>
+
+          <div class="playground-card">
+            <div class="playground-toolbar">
+              <div class="window-dots"><i></i><i></i><i></i></div>
+              <div class="playground-title">
+                <svg><use href="#i-tree" /></svg><span>BilaTree Explorer</span>
+              </div>
+              <div class="sync-chip">
+                <span class="live-dot"></span><span id="tab-count">Tab này đang trực tuyến</span>
+              </div>
+            </div>
+
+            <div class="playground-layout">
+              <form class="write-panel" id="tree-form">
+                <div class="panel-label">GHI VÀO MỘT NÚT</div>
+                <label for="path-input">Đường dẫn</label>
+                <div class="input-wrap path-wrap">
+                  <span>/</span
+                  ><input
+                    id="path-input"
+                    name="path"
+                    type="text"
+                    value="du-an/bilatree/trang-thai"
+                    autocomplete="off"
+                    spellcheck="false"
+                    required
+                  />
+                </div>
+                <label for="value-input">Giá trị JSON hoặc văn bản</label>
+                <textarea id="value-input" name="value" rows="5" spellcheck="false">
+{"tienDo": 82, "sanSang": true}</textarea
+                >
+                <div class="example-chips" role="group" aria-label="Giá trị mẫu">
+                  <button type="button" data-example='{"tienDo": 82, "sanSang": true}'>
+                    Đối tượng
+                  </button>
+                  <button type="button" data-example='["React", "Nostr", "TypeScript"]'>
+                    Mảng
+                  </button>
+                  <button type="button" data-example="Xin chào Việt Nam">Văn bản</button>
+                </div>
+                <button class="button primary full" type="submit">
+                  <svg><use href="#i-sync" /></svg>Ghi và phát thay đổi
+                </button>
+                <p class="privacy-note">
+                  <svg><use href="#i-shield" /></svg>Dữ liệu demo không rời khỏi trình duyệt của
+                  bạn.
+                </p>
+              </form>
+
+              <div class="tree-panel">
+                <div class="panel-heading">
+                  <div>
+                    <span class="panel-label">CÂY HIỆN TẠI</span
+                    ><small id="node-count">0 nút dữ liệu</small>
+                  </div>
+                  <button class="icon-text-button danger" id="clear-tree" type="button">
+                    <svg><use href="#i-trash" /></svg>Xóa demo
+                  </button>
+                </div>
+                <div class="tree-view" id="tree-view" role="tree" aria-live="polite"></div>
+                <div class="empty-state" id="empty-tree">
+                  <div>
+                    <svg><use href="#i-tree" /></svg>
+                  </div>
+                  <strong>Cây đang chờ dữ liệu</strong>
+                  <p>Nhấn “Ghi và phát thay đổi” để tạo nhánh đầu tiên.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="event-strip">
+              <div class="event-title">
+                <svg><use href="#i-clock" /></svg><span>Sự kiện gần đây</span>
+              </div>
+              <div class="event-feed" id="event-feed" aria-live="polite"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="kien-truc" class="content-section section-anchor">
+          <div class="section-intro narrow">
+            <span class="kicker">KIẾN TRÚC</span>
+            <h2>Một giao diện. Nhiều nơi lưu trữ.</h2>
+            <p>
+              Lõi Node chỉ quản lý đường dẫn, đăng ký và thứ tự thay đổi. Adapter quyết định dữ liệu
+              sống ở đâu và di chuyển như thế nào.
+            </p>
+          </div>
+
+          <div class="architecture-flow" role="img" aria-label="Luồng kiến trúc BilaTree">
+            <article class="architecture-card featured">
+              <div class="card-icon teal">
+                <svg><use href="#i-code" /></svg>
+              </div>
+              <span>GIAO DIỆN</span>
+              <h3>Ứng dụng &amp; React</h3>
+              <p>Đọc, ghi và đăng ký bằng API thống nhất.</p>
+            </article>
+            <div class="flow-arrow">
+              <span></span><svg><use href="#i-chevron" /></svg>
+            </div>
+            <article class="architecture-card core">
+              <div class="card-icon violet">
+                <svg><use href="#i-tree" /></svg>
+              </div>
+              <span>LÕI</span>
+              <h3>Node API</h3>
+              <p><code>get · put · on · open</code></p>
+            </article>
+            <div class="flow-arrow">
+              <span></span><svg><use href="#i-chevron" /></svg>
+            </div>
+            <div class="adapter-stack">
+              <article>
+                <svg><use href="#i-database" /></svg>
+                <div>
+                  <strong>Bộ nhớ &amp; trình duyệt</strong
+                  ><small>Memory · IndexedDB · localStorage</small>
+                </div>
+              </article>
+              <article>
+                <svg><use href="#i-sync" /></svg>
+                <div><strong>Nhiều tab</strong><small>BroadcastChannel</small></div>
+              </article>
+              <article>
+                <svg><use href="#i-radio" /></svg>
+                <div><strong>Mạng công khai</strong><small>NDK · Nostr relay</small></div>
+              </article>
+            </div>
+          </div>
+
+          <div class="feature-grid">
+            <article>
+              <div class="feature-number">01</div>
+              <h3>Đường dẫn là truy vấn</h3>
+              <p><code>node.get('du-an/ten')</code> trỏ đến đúng nhánh mà không cần schema nặng.</p>
+            </article>
+            <article>
+              <div class="feature-number">02</div>
+              <h3>Thay đổi là luồng</h3>
+              <p>
+                <code>on(callback)</code> trả dữ liệu hiện có rồi tiếp tục phát bản cập nhật mới.
+              </p>
+            </article>
+            <article>
+              <div class="feature-number">03</div>
+              <h3>Adapter là biên hệ thống</h3>
+              <p>Thay phương tiện lưu/truyền mà không viết lại component hay logic trạng thái.</p>
+            </article>
+            <article>
+              <div class="feature-number">04</div>
+              <h3>Danh tính là khóa</h3>
+              <p>Với Nostr, trạng thái công khai gắn với khóa tác giả và sự kiện đã ký.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="tai-lieu" class="content-section section-anchor docs-section">
+          <div class="section-intro narrow">
+            <span class="kicker">BẮT ĐẦU TRONG VÀI PHÚT</span>
+            <h2>API nhỏ, ý tưởng rõ.</h2>
+          </div>
+
+          <div class="code-card">
+            <div class="code-tabs" role="tablist" aria-label="Ví dụ mã BilaTree">
+              <button
+                class="code-tab active"
+                type="button"
+                role="tab"
+                aria-selected="true"
+                data-code="vanilla"
+              >
+                TypeScript
+              </button>
+              <button
+                class="code-tab"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                data-code="react"
+              >
+                React
+              </button>
+              <button
+                class="code-tab"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                data-code="nostr"
+              >
+                Nostr
+              </button>
+              <button
+                class="copy-button compact"
+                type="button"
+                data-copy-target="active-code"
+                aria-label="Sao chép ví dụ mã"
+              >
+                <svg><use href="#i-copy" /></svg><span>Sao chép</span>
+              </button>
+            </div>
+            <pre
+              id="active-code"
+            ><code data-code-panel="vanilla"><span class="kw">import</span> { localState } <span class="kw">from</span> <span class="str">'treelike'</span>;
+
+<span class="kw">const</span> trangThai = localState.get(<span class="str">'du-an/bilatree'</span>);
+
+<span class="cm">// Lắng nghe dữ liệu hiện có và mọi thay đổi mới</span>
+<span class="kw">const</span> huy = trangThai.on((giaTri) =&gt; {
+  console.log(<span class="str">'Dữ liệu mới:'</span>, giaTri);
+});
+
+<span class="kw">await</span> trangThai.put({ tienDo: <span class="num">82</span>, sanSang: <span class="bool">true</span> });
+
+<span class="cm">// Dừng lắng nghe khi không còn sử dụng</span>
+huy();</code><code data-code-panel="react" hidden><span class="kw">import</span> { useLocalState } <span class="kw">from</span> <span class="str">'treelike-hooks'</span>;
+
+<span class="kw">export function</span> HoSo() {
+  <span class="kw">const</span> [ten, setTen] = useLocalState(
+    <span class="str">'nguoi-dung/ho-so/ten'</span>,
+    <span class="str">'Chưa đặt tên'</span>
+  );
+
+  <span class="kw">return</span> &lt;input value={ten} onChange={e =&gt; setTen(e.target.value)} /&gt;;
+}</code><code data-code-panel="nostr" hidden><span class="kw">import</span> { publicState } <span class="kw">from</span> <span class="str">'treelike-nostr'</span>;
+
+<span class="cm">// publish/subscribe được cung cấp bởi lớp tích hợp NDK</span>
+<span class="kw">const</span> state = publicState(publish, subscribe, [npub]);
+
+state.get(<span class="str">'apps/tai-lieu/tieu-de'</span>).on(console.log);
+
+<span class="kw">await</span> state
+  .get(<span class="str">'apps/tai-lieu/tieu-de'</span>)
+  .put(<span class="str">'Tài liệu cộng tác'</span>);</code></pre>
+          </div>
+
+          <div class="package-grid">
+            <a href="https://www.npmjs.com/package/treelike" target="_blank" rel="noreferrer"
+              ><span>GÓI LÕI</span>
+              <h3>treelike</h3>
+              <p>Node, kiểu dữ liệu và adapter cục bộ.</p>
+              <svg><use href="#i-external" /></svg
+            ></a>
+            <a href="https://www.npmjs.com/package/treelike-nostr" target="_blank" rel="noreferrer"
+              ><span>ĐỒNG BỘ</span>
+              <h3>treelike-nostr</h3>
+              <p>Trạng thái công khai qua NDK/Nostr.</p>
+              <svg><use href="#i-external" /></svg
+            ></a>
+            <a href="https://www.npmjs.com/package/treelike-hooks" target="_blank" rel="noreferrer"
+              ><span>GIAO DIỆN</span>
+              <h3>treelike-hooks</h3>
+              <p>Hooks khai báo cho ứng dụng React.</p>
+              <svg><use href="#i-external" /></svg
+            ></a>
+          </div>
+
+          <div class="cta-card">
+            <div>
+              <span class="kicker">SẴN SÀNG KHÁM PHÁ?</span>
+              <h2>Xây ứng dụng local-first của bạn.</h2>
+              <p>Bắt đầu từ API nhỏ, thêm đúng adapter khi phạm vi đồng bộ lớn dần.</p>
+            </div>
+            <div class="cta-actions">
+              <a
+                class="button primary"
+                href="https://github.com/Base27-CVNSS/bilatree"
+                target="_blank"
+                rel="noreferrer"
+                ><svg><use href="#i-github" /></svg>Mở GitHub</a
+              ><a
+                class="button secondary"
+                href="https://github.com/Base27-CVNSS/bilatree#readme"
+                target="_blank"
+                rel="noreferrer"
+                >Đọc README</a
+              >
+            </div>
+          </div>
+        </section>
+
+        <footer class="site-footer">
+          <div class="footer-brand">
+            <img src="./assets/logo.svg" alt="" />
+            <div><strong>BilaTree</strong><span>Trạng thái sống cho web mở.</span></div>
+          </div>
+          <p>
+            Phát triển bản tiếng Việt bởi <strong>Long Ngo</strong> · Dựa trên Treelike của Martti
+            Malmi · Giấy phép MIT.
+          </p>
+          <div>
+            <a href="https://github.com/Base27-CVNSS/bilatree">GitHub</a
+            ><a href="https://iris.to/">Iris</a
+            ><a href="https://github.com/Base27-CVNSS/bilatree/blob/main/LICENSE">MIT</a>
+          </div>
+        </footer>
+      </main>
+
+      <aside class="right-sidebar" aria-label="Thông tin nhanh">
+        <div class="right-inner">
+          <div class="search-box">
+            <svg><use href="#i-search" /></svg
+            ><input
+              id="site-search"
+              type="search"
+              placeholder="Tìm trong trang…"
+              aria-label="Tìm trong trang"
+            /><kbd>/</kbd>
+          </div>
+
+          <section class="status-card">
+            <div class="card-heading">
+              <h2>Trạng thái lớp dữ liệu</h2>
+              <span class="status-live"><span class="live-dot"></span>Hoạt động</span>
+            </div>
+            <div class="status-list">
+              <div>
+                <span class="status-icon local"
+                  ><svg><use href="#i-database" /></svg
+                ></span>
+                <div><strong>LocalStorage</strong><small>Lưu bền trên thiết bị</small></div>
+                <span class="check"
+                  ><svg><use href="#i-check" /></svg
+                ></span>
+              </div>
+              <div>
+                <span class="status-icon channel"
+                  ><svg><use href="#i-sync" /></svg
+                ></span>
+                <div><strong>BroadcastChannel</strong><small>Đồng bộ giữa các tab</small></div>
+                <span class="check"
+                  ><svg><use href="#i-check" /></svg
+                ></span>
+              </div>
+              <div>
+                <span class="status-icon nostr"
+                  ><svg><use href="#i-radio" /></svg
+                ></span>
+                <div><strong>Nostr adapter</strong><small>Tùy chọn khi tích hợp NDK</small></div>
+                <span class="optional">Tùy chọn</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="quick-card">
+            <span class="kicker">CÀI ĐẶT NHANH</span>
+            <h2>Ba bước để bắt đầu</h2>
+            <ol>
+              <li>
+                <span>1</span>
+                <div><strong>Cài gói lõi</strong><code>npm i treelike</code></div>
+              </li>
+              <li>
+                <span>2</span>
+                <div><strong>Chọn một đường dẫn</strong><code>node.get('a/b')</code></div>
+              </li>
+              <li>
+                <span>3</span>
+                <div><strong>Đăng ký thay đổi</strong><code>node.on(callback)</code></div>
+              </li>
+            </ol>
+            <a href="#tai-lieu"
+              >Xem ví dụ đầy đủ <svg><use href="#i-chevron" /></svg
+            ></a>
+          </section>
+
+          <section class="author-card">
+            <div class="author-mark">LN</div>
+            <div>
+              <span>PHÁT TRIỂN BẢN VIỆT</span><strong>Long Ngo</strong
+              ><a href="https://github.com/Base27-CVNSS" target="_blank" rel="noreferrer"
+                >@Base27-CVNSS</a
+              >
+            </div>
+          </section>
+
+          <p class="inspiration-note">
+            <svg><use href="#i-heart" /></svg> Trải nghiệm lấy cảm hứng từ tính tối giản và cởi mở
+            của Iris.
+          </p>
+        </div>
+      </aside>
+    </div>
+
+    <nav class="mobile-bottom-nav" aria-label="Điều hướng di động">
+      <a class="active" href="#tong-quan"
+        ><svg><use href="#i-home" /></svg><span>Tổng quan</span></a
+      >
+      <a href="#phong-thu"
+        ><svg><use href="#i-tree" /></svg><span>Phòng thử</span></a
+      >
+      <a href="#kien-truc"
+        ><svg><use href="#i-sync" /></svg><span>Kiến trúc</span></a
+      >
+      <a href="#tai-lieu"
+        ><svg><use href="#i-code" /></svg><span>Tài liệu</span></a
+      >
+    </nav>
+
+    <div class="menu-backdrop" id="menu-backdrop"></div>
+    <div class="toast" id="toast" role="status" aria-live="polite">
+      <svg><use href="#i-check" /></svg><span>Đã sao chép</span>
+    </div>
+    <script src="./app.js" defer></script>
+  </body>
+</html>

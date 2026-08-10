@@ -5,7 +5,7 @@ import { Node } from './Node.ts';
 const NAME = 'localState';
 
 /**
- * Local state is a node that uses local storage and broadcast channel to store and share state.
+ * Trạng thái cục bộ dùng localStorage để lưu bền và BroadcastChannel để chia sẻ giữa các tab.
  */
 const localState = new Node({
   id: NAME,

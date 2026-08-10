@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { PublicKey } from './PublicKey.ts';
 
 describe('PublicKey', () => {
-  it('should convert npub bech32 to hex', () => {
+  it('chuyển npub bech32 sang hex', () => {
     const bech32 = 'npub1g53mukxnjkcmr94fhryzkqutdz2ukq4ks0gvy5af25rgmwsl4ngq43drvk';
     const hex = '4523be58d395b1b196a9b8c82b038b6895cb02b683d0c253a955068dba1facd0';
     const publicKey = new PublicKey(bech32);
@@ -11,7 +11,7 @@ describe('PublicKey', () => {
     expect(publicKey.npub).toEqual(bech32);
   });
 
-  it('should init from hex', () => {
+  it('khởi tạo từ chuỗi hex', () => {
     const hex = '4523be58d395b1b196a9b8c82b038b6895cb02b683d0c253a955068dba1facd0';
     const publicKey = new PublicKey(hex);
     expect(publicKey.hex).toEqual(hex);
@@ -20,7 +20,7 @@ describe('PublicKey', () => {
     );
   });
 
-  it('should fail with too long hex', () => {
+  it('từ chối chuỗi hex quá dài', () => {
     const hex =
       '4523be58d395b1b196a9b8c82b038b6895cb02b683d0c253a955068dba1facd04523be58d395b1b196a9b8c82b038b6895cb02b683d0c253a955068dba1facd0';
     expect(() => new PublicKey(hex)).toThrow();

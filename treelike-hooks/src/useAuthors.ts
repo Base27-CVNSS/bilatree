@@ -5,9 +5,9 @@ import { NostrEvent, NostrPublish, NostrSubscribe } from '../../treelike-nostr/s
 import { useLocalState } from './useLocalState';
 
 /**
- * React hook to get an array of author public keys.
- * @param ownerOrGroup public key of the owner or 'follows' to get the authors the user follows
- * @param groupPath path to load the authors list from, e.g. 'apps/canvas/documents/myDoc1/authors'
+ * React hook lấy mảng khóa công khai của các tác giả.
+ * @param ownerOrGroup khóa công khai của chủ sở hữu, hoặc 'follows' để lấy những tác giả người dùng đang theo dõi
+ * @param groupPath đường dẫn chứa danh sách tác giả, ví dụ 'ung-dung/tai-lieu/tai-lieu-1/tac-gia'
  */
 export function useAuthors(
   publish: NostrPublish,
@@ -42,7 +42,7 @@ export function useAuthors(
                   updated = true;
                 }
               } catch (e) {
-                console.error('Invalid public key', tag[1]);
+                console.error('Khóa công khai không hợp lệ', tag[1]);
               }
             }
           });

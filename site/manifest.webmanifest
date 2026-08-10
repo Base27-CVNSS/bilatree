@@ -1,0 +1,19 @@
+{
+  "name": "BilaTree — Trạng thái sống",
+  "short_name": "BilaTree",
+  "description": "Cây trạng thái có thể đăng ký, lưu cục bộ và đồng bộ qua Nostr.",
+  "lang": "vi",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#07110f",
+  "theme_color": "#07110f",
+  "icons": [
+    {
+      "src": "./assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

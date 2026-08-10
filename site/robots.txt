@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://base27-cvnss.github.io/bilatree/sitemap.xml

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">BilaTree — Trạng thái như một cái cây</title>
+  <desc id="desc">Ảnh giới thiệu dự án mã nguồn mở BilaTree</desc>
+  <defs>
+    <radialGradient id="halo" cx="0" cy="0" r="1" gradientTransform="translate(928 292) rotate(132) scale(375)"><stop stop-color="#32D69A" stop-opacity=".22"/><stop offset="1" stop-color="#32D69A" stop-opacity="0"/></radialGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#11241F"/><stop offset="1" stop-color="#081411"/></linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#77F3C4"/><stop offset="1" stop-color="#20B980"/></linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#07110F"/>
+  <rect width="1200" height="630" fill="url(#halo)"/>
+  <path d="M0 110h1200M0 520h1200" stroke="#9FC7B8" stroke-opacity=".08"/>
+  <g transform="translate(72 68)">
+    <rect width="68" height="68" rx="18" fill="url(#panel)" stroke="#A3E8CF" stroke-opacity=".2"/>
+    <path d="M34 17v13M20 39h28M20 39v10M48 39v10M34 30v19" fill="none" stroke="url(#leaf)" stroke-width="4.5" stroke-linecap="round"/>
+    <circle cx="34" cy="15" r="6" fill="#69EFBB"/><circle cx="20" cy="52" r="6" fill="#41D79D"/><circle cx="34" cy="52" r="6" fill="#41D79D"/><circle cx="48" cy="52" r="6" fill="#41D79D"/>
+  </g>
+  <text x="158" y="112" fill="#EEF8F4" font-family="Inter,Segoe UI,sans-serif" font-size="34" font-weight="750">BilaTree</text>
+  <text x="72" y="244" fill="#F2F8F5" font-family="Inter,Segoe UI,sans-serif" font-size="68" font-weight="800" letter-spacing="-3">Trạng thái như</text>
+  <text x="72" y="319" fill="#63EDB9" font-family="Inter,Segoe UI,sans-serif" font-size="68" font-weight="800" letter-spacing="-3">một cái cây.</text>
+  <text x="76" y="379" fill="#9DB5AC" font-family="Inter,Segoe UI,sans-serif" font-size="24">Local-first · Có thể đăng ký · Đồng bộ Nostr</text>
+  <g transform="translate(76 433)">
+    <rect width="348" height="62" rx="14" fill="#0E1D19" stroke="#9FC7B8" stroke-opacity=".16"/>
+    <text x="23" y="39" fill="#C3D5CE" font-family="Consolas,monospace" font-size="20">npm install treelike</text>
+  </g>
+  <g transform="translate(786 115)">
+    <circle cx="166" cy="184" r="180" fill="none" stroke="#4BE0A8" stroke-opacity=".15" stroke-dasharray="5 10"/>
+    <circle cx="166" cy="184" r="119" fill="none" stroke="#AC91FF" stroke-opacity=".14" stroke-dasharray="4 8"/>
+    <path d="M166 144v72M94 267h144M94 267v54M238 267v54M166 216v105" fill="none" stroke="url(#leaf)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="166" cy="122" r="31" fill="url(#leaf)"/><circle cx="94" cy="340" r="29" fill="url(#leaf)"/><circle cx="166" cy="340" r="29" fill="url(#leaf)"/><circle cx="238" cy="340" r="29" fill="url(#leaf)"/>
+  </g>
+  <text x="72" y="574" fill="#6D857C" font-family="Inter,Segoe UI,sans-serif" font-size="18">Mã nguồn mở MIT · Bản tiếng Việt phát triển bởi Long Ngo / Base27-CVNSS</text>
+</svg>

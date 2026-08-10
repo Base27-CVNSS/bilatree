@@ -13,14 +13,14 @@ describe('Node', () => {
   });
 
   describe('new Node()', () => {
-    it('should initialize with defaults', () => {
+    it('khởi tạo với cấu hình mặc định', () => {
       const newNode = new Node({ adapters: [] });
       expect(newNode.id).toEqual('');
     });
   });
 
   describe('node.on()', () => {
-    it('should subscribe and unsubscribe with on()', () => {
+    it('đăng ký và hủy đăng ký bằng on()', () => {
       const mockCallback: Callback = vi.fn();
       const unsubscribe: Unsubscribe = node.on(mockCallback);
 
@@ -37,7 +37,7 @@ describe('Node', () => {
       expect(mockCallback).toHaveBeenCalledTimes(1);
     });
 
-    it('should callback when subscribed after put()', () => {
+    it('gọi callback khi đăng ký sau put()', () => {
       const mockCallback: Callback = vi.fn();
       node.put('someValue');
       node.on(mockCallback);
@@ -50,7 +50,7 @@ describe('Node', () => {
       );
     });
 
-    it('should return an object containing children when called with recursion = 1', async () => {
+    it('trả đối tượng chứa nút con khi recursion = 1', async () => {
       const settingsNode = new Node({ id: 'settings', adapters: [new MemoryAdapter()] });
       const mockCallback1: Callback = vi.fn();
       const mockCallback2: Callback = vi.fn();
@@ -76,7 +76,7 @@ describe('Node', () => {
   });
 
   describe('node.once()', () => {
-    it('should trigger callback once when calling once()', async () => {
+    it('chỉ gọi callback một lần với once()', async () => {
       const mockCallback: Callback = vi.fn();
       node.put('someValue');
 
@@ -93,12 +93,12 @@ describe('Node', () => {
       expect(mockCallback).toHaveBeenCalledTimes(1);
     });
 
-    it('should return undefined if value is not found and returnIfUndefined param is true', async () => {
+    it('trả undefined khi không có giá trị và returnIfUndefined là true', async () => {
       const result = await node.once(undefined, true);
       expect(result).toBe(undefined);
     });
 
-    it('should return if the data was pre-existing in an adapter', async () => {
+    it('trả dữ liệu đã tồn tại sẵn trong adapter', async () => {
       const adapter = new MemoryAdapter();
       const node = new Node({ id: 'user', adapters: [adapter] });
 
@@ -123,7 +123,7 @@ describe('Node', () => {
   });
 
   describe('node.map()', () => {
-    it('should trigger map callbacks when children are present', async () => {
+    it('gọi callback map khi đã có nút con', async () => {
       const adapter = new MemoryAdapter();
       const node = new Node({ id: 'test', adapters: [adapter] });
 
@@ -165,7 +165,7 @@ describe('Node', () => {
       expect(mapMockCallback).toHaveBeenCalledTimes(2);
     });
 
-    it('should trigger map callbacks when children are added', async () => {
+    it('gọi callback map khi thêm nút con', async () => {
       const mockCallback: Callback = vi.fn();
       const unsubscribe: Unsubscribe = node.forEach(mockCallback);
 
@@ -190,7 +190,7 @@ describe('Node', () => {
       expect(mockCallback).toHaveBeenCalledTimes(2);
     });
 
-    it('should trigger map callbacks when a nested child is added', async () => {
+    it('gọi callback map khi thêm nút con lồng nhau', async () => {
       const node = new Node({ id: 'root', adapters: [new MemoryAdapter()] });
       const mockCallback: Callback = vi.fn();
       const unsubscribe = node.get('chats').forEach(mockCallback);
@@ -208,7 +208,7 @@ describe('Node', () => {
       unsubscribe();
     });
 
-    it('should return if the data was pre-existing in an adapter', async () => {
+    it('trả dữ liệu đã tồn tại sẵn trong adapter', async () => {
       const adapter = new MemoryAdapter();
       const node = new Node({ id: 'user', adapters: [adapter] });
       await node.put({ name: 'Snowden', age: 30 });
@@ -223,7 +223,7 @@ describe('Node', () => {
       );
     });
 
-    it('should return children of children when called recursively', async () => {
+    it('trả nút con nhiều cấp khi gọi đệ quy', async () => {
       const mockCallback: Callback = vi.fn();
 
       await node
