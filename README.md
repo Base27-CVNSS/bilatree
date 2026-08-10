@@ -1,20 +1,24 @@
 <div align="center">
 
-<img src="site/assets/logo.svg" alt="BilaTree" width="112" />
+<img src="assets/logo.svg" alt="Biểu trưng BilaTree" width="112" />
 
-# 🌳 BilaTree
+<h1>🌳 BilaTree</h1>
 
-### Cây trạng thái có thể đăng ký, lưu cục bộ và đồng bộ qua nhiều phương thức
+<p><strong>Cây trạng thái có thể đăng ký, lưu cục bộ và đồng bộ qua nhiều phương thức</strong></p>
 
-[![Giấy phép MIT](https://img.shields.io/badge/Giấy_phép-MIT-0f766e?style=for-the-badge)](LICENSE)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Nostr](https://img.shields.io/badge/Nostr-Tương_thích-7c3aed?style=for-the-badge)](https://nostr.com/)
-[![Giao diện](https://img.shields.io/badge/Giao_diện-Tiếng_Việt-dc2626?style=for-the-badge)](https://base27-cvnss.github.io/bilatree/)
+<p>
+  <a href="LICENSE"><img alt="Giấy phép MIT" src="https://img.shields.io/badge/Giấy_phép-MIT-0f766e?style=for-the-badge" /></a>
+  <a href="https://www.typescriptlang.org/"><img alt="TypeScript 5.x" src="https://img.shields.io/badge/TypeScript-5.x-3178c6?style=for-the-badge&amp;logo=typescript&amp;logoColor=white" /></a>
+  <a href="https://nostr.com/"><img alt="Tương thích Nostr" src="https://img.shields.io/badge/Nostr-Tương_thích-7c3aed?style=for-the-badge" /></a>
+  <a href="https://base27-cvnss.github.io/bilatree/"><img alt="Giao diện tiếng Việt" src="https://img.shields.io/badge/Giao_diện-Tiếng_Việt-dc2626?style=for-the-badge" /></a>
+</p>
 
-[🌐 Trải nghiệm BilaTree](https://base27-cvnss.github.io/bilatree/) ·
-[📘 Tài liệu API](https://treelike.iris.to/) ·
-[💻 Mã nguồn](https://github.com/Base27-CVNSS/bilatree) ·
-[🐞 Báo lỗi](https://github.com/Base27-CVNSS/bilatree/issues)
+<p>
+  <a href="https://base27-cvnss.github.io/bilatree/">🌐 Trải nghiệm BilaTree</a> ·
+  <a href="https://treelike.iris.to/">📘 Tài liệu API</a> ·
+  <a href="https://github.com/Base27-CVNSS/bilatree">💻 Mã nguồn</a> ·
+  <a href="https://github.com/Base27-CVNSS/bilatree/issues">🐞 Báo lỗi</a>
+</p>
 
 </div>
 
@@ -102,7 +106,7 @@ flowchart TD
 | `treelike`       | Lõi cây trạng thái           | `Node`, kiểu JSON, trạng thái cục bộ, adapter bộ nhớ/trình duyệt |
 | `treelike-nostr` | Cầu nối mạng Nostr           | `NDKAdapter`, `publicState`, chuẩn hóa khóa công khai            |
 | `treelike-hooks` | Liên kết React               | `useLocalState`, `usePublicState`, `useNodeState`, `useAuthors`  |
-| `site`           | Cổng giới thiệu và phòng thử | UI tiếng Việt, cây trực quan, lưu cục bộ, đồng bộ giữa tab       |
+| Website root     | Cổng giới thiệu và phòng thử | UI tiếng Việt, cây trực quan, lưu cục bộ, đồng bộ giữa tab       |
 
 ### Hợp đồng adapter
 

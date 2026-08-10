@@ -17,7 +17,7 @@
   "scripts": {
     "build": "npm run build --workspace=treelike && npm run build --workspace=treelike-nostr && npm run build --workspace=treelike-hooks",
     "test": "npm run test --workspaces --if-present -- --run",
-    "site:check": "node --check site/app.js",
+    "site:check": "node --check app.js",
     "docs": "typedoc",
     "lint": "eslint --ext .ts,.tsx --fix ."
   },
