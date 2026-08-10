@@ -3,14 +3,14 @@ import { nip19 } from 'nostr-tools';
 import { Hex } from './Hex';
 
 /**
- * Nostr public key hex encoded string.
+ * Khóa công khai Nostr ở dạng chuỗi hexadecimal.
  */
 export class PublicKey extends Hex {
   npubValue: string | undefined;
 
   /**
-   * @param str hex or npub encoded string
-   * @throws Error if the provided string is not a valid nostr public key
+   * @param str chuỗi được mã hóa dạng hex hoặc npub
+   * @throws Error nếu chuỗi không phải khóa công khai Nostr hợp lệ
    */
   constructor(str: string) {
     const isNpub = str.startsWith('npub');
@@ -20,12 +20,12 @@ export class PublicKey extends Hex {
       if (res.type === 'npub') {
         hexValue = res.data;
       } else {
-        throw new Error(`failed to decode npub ${str}`);
+        throw new Error(`Không thể giải mã npub ${str}`);
       }
     }
     super(hexValue, 64);
     if (isNpub) {
-      this.npubValue = str; // preserve the original Bech32 value
+      this.npubValue = str; // Giữ nguyên giá trị Bech32 ban đầu.
     }
   }
 

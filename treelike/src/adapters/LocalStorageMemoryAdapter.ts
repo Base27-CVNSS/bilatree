@@ -1,7 +1,7 @@
 import { Adapter, Callback, NodeValue, Unsubscribe } from '../types';
 
 /**
- * An adapter that stores data in the browser's local storage and memory.
+ * Adapter kết hợp bộ nhớ với localStorage của trình duyệt.
  */
 export class LocalStorageMemoryAdapter implements Adapter {
   private storage = new Map<string, NodeValue>();
@@ -24,7 +24,7 @@ export class LocalStorageMemoryAdapter implements Adapter {
         value = localStorage.getItem(key) || '';
         value = JSON.parse(value);
       } catch (e) {
-        // Ignore
+        // Bỏ qua lỗi đọc localStorage và tiếp tục với bộ nhớ.
       }
       this.storage.set(key, value);
     }
@@ -65,7 +65,7 @@ export class LocalStorageMemoryAdapter implements Adapter {
 
   async set(path: string, value: NodeValue) {
     if (value.updatedAt === undefined) {
-      throw new Error(`Invalid value: ${JSON.stringify(value)}`);
+      throw new Error(`Giá trị không hợp lệ: ${JSON.stringify(value)}`);
     }
     this.storage.set(path, value);
     localStorage.setItem(path, JSON.stringify(value));

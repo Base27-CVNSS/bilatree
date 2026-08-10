@@ -4,7 +4,7 @@ import NDKAdapter from './NDKAdapter';
 import { NostrPublish, NostrSubscribe } from './types.ts';
 
 /**
- * Create a public state node with the given authors
+ * Tạo nút trạng thái công khai theo danh sách tác giả được cung cấp.
  * @param authors
  */
 const publicState = (

@@ -1,7 +1,7 @@
 import { Adapter, Callback, NodeValue, Unsubscribe } from '../types.ts';
 
 /**
- * Memory-only adapter
+ * Adapter chỉ lưu dữ liệu trong bộ nhớ.
  */
 export class MemoryAdapter implements Adapter {
   private storage = new Map<string, NodeValue>();
@@ -14,7 +14,7 @@ export class MemoryAdapter implements Adapter {
 
   async set(path: string, value: NodeValue) {
     if (value.updatedAt === undefined) {
-      throw new Error(`Invalid value: ${JSON.stringify(value)}`);
+      throw new Error(`Giá trị không hợp lệ: ${JSON.stringify(value)}`);
     }
     if (value === undefined) {
       this.storage.delete(path);

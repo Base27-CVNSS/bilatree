@@ -1,0 +1,36 @@
+name: Kiểm tra chất lượng
+
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Build, test và kiểm tra website
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v6
+
+      - name: Cài Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Cài dependencies
+        run: npm ci
+
+      - name: Kiểm tra cú pháp website
+        run: npm run site:check
+
+      - name: Build ba gói TypeScript
+        run: npm run build
+
+      - name: Chạy bộ kiểm thử
+        run: npm test

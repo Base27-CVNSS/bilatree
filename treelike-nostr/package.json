@@ -2,7 +2,7 @@
   "name": "treelike-nostr",
   "version": "1.0.23",
   "type": "module",
-  "description": "Nostr adapter for treelike",
+  "description": "Adapter Nostr cho cây trạng thái treelike",
   "main": "dist/treelike-nostr.umd.js",
   "module": "dist/treelike-nostr.es.js",
   "types": "dist/index.d.ts",
@@ -12,15 +12,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/irislib/treelike.git"
+    "url": "git+https://github.com/Base27-CVNSS/bilatree.git",
+    "directory": "treelike-nostr"
   },
   "author": "Martti Malmi",
+  "contributors": [
+    "Long Ngo <Base27-CVNSS> (Vietnamese edition and enhancements)"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/irislib/treelike/issues"
+    "url": "https://github.com/Base27-CVNSS/bilatree/issues"
   },
-  "homepage": "https://github.com/irislib/treelike",
-  "documentation": "https://treelike.iris.to",
+  "homepage": "https://base27-cvnss.github.io/bilatree/",
+  "documentation": "https://base27-cvnss.github.io/bilatree/#tai-lieu",
   "dependencies": {
     "@noble/hashes": "^1.5.0",
     "debug": "^4.3.7",

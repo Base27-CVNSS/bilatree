@@ -1,7 +1,7 @@
 import { Adapter, Callback, NodeValue, Unsubscribe } from '../types';
 
 /**
- * Sync between browser tabs over a [BroadcastChannel](https://developer.mozilla.org/en-US/docs/Web/API/BroadcastChannel).
+ * Đồng bộ giữa các tab trình duyệt qua [BroadcastChannel](https://developer.mozilla.org/en-US/docs/Web/API/BroadcastChannel).
  */
 export class BroadcastChannelAdapter implements Adapter {
   channel: BroadcastChannel;
@@ -27,7 +27,7 @@ export class BroadcastChannelAdapter implements Adapter {
 
   async set(path: string, value: NodeValue) {
     if (value && value.updatedAt === undefined) {
-      throw new Error(`Invalid value: ${JSON.stringify(value)}`);
+      throw new Error(`Giá trị không hợp lệ: ${JSON.stringify(value)}`);
     }
 
     const message = JSON.stringify({
@@ -42,11 +42,11 @@ export class BroadcastChannelAdapter implements Adapter {
   list(path: string, callback: Callback): Unsubscribe {
     const listener = (event: MessageEvent) => {
       const { path: eventPath, value, updatedAt } = JSON.parse(event.data);
-      // Assuming path is a prefix to identify children in this simple example
+      // Trong adapter đơn giản này, đường dẫn được dùng làm tiền tố để xác định nút con.
       if (eventPath.startsWith(`${path}/`)) {
         const childPath = eventPath.substring(path.length + 1);
         if (!childPath.includes('/')) {
-          // Direct child check
+          // Chỉ nhận nút con trực tiếp.
           callback(value, childPath, updatedAt, () =>
             this.channel.removeEventListener('message', listener),
           );

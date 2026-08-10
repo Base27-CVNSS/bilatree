@@ -2,25 +2,29 @@
   "name": "treelike-hooks",
   "version": "1.0.14",
   "type": "module",
-  "description": "React hooks for treelike",
+  "description": "React hooks cho treelike và treelike-nostr",
   "main": "dist/treelike-hooks.umd.js",
   "module": "dist/treelike-hooks.es.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "vitest",
+    "test": "vitest --passWithNoTests",
     "build": "vite build && tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/irislib/treelike.git"
+    "url": "git+https://github.com/Base27-CVNSS/bilatree.git",
+    "directory": "treelike-hooks"
   },
   "author": "Martti Malmi",
+  "contributors": [
+    "Long Ngo <Base27-CVNSS> (Vietnamese edition and enhancements)"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/irislib/treelike/issues"
+    "url": "https://github.com/Base27-CVNSS/bilatree/issues"
   },
-  "homepage": "https://github.com/irislib/treelike",
-  "documentation": "https://treelike.iris.to",
+  "homepage": "https://base27-cvnss.github.io/bilatree/",
+  "documentation": "https://base27-cvnss.github.io/bilatree/#tai-lieu",
   "files": [
     "src",
     "dist"

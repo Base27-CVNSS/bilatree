@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Callback, Unsubscribe } from '../types.ts';
 import { IndexedDBAdapter } from './IndexedDBAdapter.ts';
 
-describe('IndexedDBAdapter with fake-indexeddb', () => {
+describe('IndexedDBAdapter với fake-indexeddb', () => {
   let adapter: IndexedDBAdapter;
 
   beforeEach(async () => {
@@ -15,7 +15,7 @@ describe('IndexedDBAdapter with fake-indexeddb', () => {
   });
 
   describe('get()', () => {
-    it('should retrieve the stored value for a given path', async () => {
+    it('đọc giá trị đã lưu theo đường dẫn', async () => {
       const mockCallback: Callback = vi.fn();
       const mockValue = { value: 'testValue', updatedAt: Date.now() };
 
@@ -35,7 +35,7 @@ describe('IndexedDBAdapter with fake-indexeddb', () => {
   });
 
   describe('set()', () => {
-    it('should set the value at the given path', async () => {
+    it('ghi giá trị vào đường dẫn', async () => {
       const mockCallback: Callback = vi.fn();
       const mockValue = { value: 'newValue', updatedAt: Date.now() };
 
@@ -54,7 +54,7 @@ describe('IndexedDBAdapter with fake-indexeddb', () => {
   });
 
   describe('list()', () => {
-    it('should list child nodes under the given path', async () => {
+    it('liệt kê các nút con trực tiếp', async () => {
       const mockCallback: Callback = vi.fn();
       const mockValue1 = { value: 'childValue1', updatedAt: Date.now() };
       const mockValue2 = { value: 'childValue2', updatedAt: Date.now() };

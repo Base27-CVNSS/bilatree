@@ -1,11 +1,11 @@
 /**
- * An event that has been verified to be from the Nostr network.
+ * Sự kiện đã được xác minh là đến từ mạng Nostr.
  */
 export type Message = {
   id: string;
   data: string;
   pubkey: string;
-  time: number; // unlike Nostr, we use milliseconds instead of seconds
+  time: number; // Khác Nostr, BilaTree dùng mili giây thay vì giây.
 };
 
 export type Header = {
@@ -22,7 +22,7 @@ export type NostrFilter = {
 };
 
 /**
- * A keypair used for encryption and decryption.
+ * Cặp khóa dùng để mã hóa và giải mã.
  */
 export type KeyPair = {
   publicKey: string;
@@ -30,47 +30,47 @@ export type KeyPair = {
 };
 
 /**
- * State of a Double Ratchet channel between two parties. Needed for persisting channels.
+ * Trạng thái kênh Double Ratchet giữa hai bên, cần thiết để lưu bền kênh.
  */
 export interface ChannelState {
-  /** Root key used to derive new sending / receiving chain keys */
+  /** Khóa gốc dùng để dẫn xuất khóa chuỗi gửi/nhận mới. */
   rootKey: Uint8Array;
 
-  /** The other party's current Nostr public key */
+  /** Khóa công khai Nostr hiện tại của bên kia. */
   theirNostrPublicKey: string;
 
-  /** Our current Nostr keypair used for this channel */
+  /** Cặp khóa Nostr hiện tại của phía này dùng cho kênh. */
   ourCurrentNostrKey?: KeyPair;
 
-  /** Our next Nostr keypair, used when ratcheting forward. It is advertised in messages we send. */
+  /** Cặp khóa Nostr kế tiếp, được công bố trong tin nhắn gửi đi để tiến ratchet. */
   ourNextNostrKey: KeyPair;
 
-  /** Key for decrypting incoming messages in current chain */
+  /** Khóa giải mã tin nhắn đến trong chuỗi hiện tại. */
   receivingChainKey?: Uint8Array;
 
-  /** Key for encrypting outgoing messages in current chain */
+  /** Khóa mã hóa tin nhắn đi trong chuỗi hiện tại. */
   sendingChainKey?: Uint8Array;
 
-  /** Number of messages sent in current sending chain */
+  /** Số tin nhắn đã gửi trong chuỗi gửi hiện tại. */
   sendingChainMessageNumber: number;
 
-  /** Number of messages received in current receiving chain */
+  /** Số tin nhắn đã nhận trong chuỗi nhận hiện tại. */
   receivingChainMessageNumber: number;
 
-  /** Number of messages sent in previous sending chain */
+  /** Số tin nhắn đã gửi trong chuỗi gửi trước. */
   previousSendingChainMessageCount: number;
 
-  /** Cache of message keys for handling out-of-order messages */
+  /** Bộ nhớ đệm khóa tin nhắn để xử lý tin đến sai thứ tự. */
   skippedMessageKeys: Record<string, Uint8Array>;
 }
 
 /**
- * Unsubscribe from a subscription or event listener.
+ * Hủy đăng ký hoặc gỡ trình lắng nghe sự kiện.
  */
 export type Unsubscribe = () => void;
 
 /**
- * Function that subscribes to Nostr events matching a filter and calls onEvent for each event.
+ * Hàm đăng ký sự kiện Nostr khớp bộ lọc và gọi onEvent cho từng sự kiện.
  */
 export type NostrSubscribe = (filter: NostrFilter, onEvent: (e: NostrEvent) => void) => Unsubscribe;
 

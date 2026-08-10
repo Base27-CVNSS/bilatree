@@ -1,6 +1,6 @@
 /**
  * @module Adapters
- * Different storage and networking options for treelike.
+ * Các phương án lưu trữ và truyền dữ liệu khác nhau cho treelike.
  */
 export { BroadcastChannelAdapter } from './BroadcastChannelAdapter';
 export { IndexedDBAdapter } from './IndexedDBAdapter';

@@ -13,19 +13,19 @@ import {
 export const DIRECTORY_VALUE = {};
 
 /**
- * Check if the value is a directory (object with no keys {})
+ * Kiểm tra giá trị có phải nút thư mục hay không (đối tượng rỗng {}).
  * @param value
  */
 export const isDirectory = (value: JsonValue) =>
   typeof value === 'object' &&
-  value !== null && // length 0
+  value !== null && // không có thuộc tính
   Object.keys(value).length === 0 &&
   !Array.isArray(value);
 
 /**
- * Nodes represent queries into the tree. The actual tree data is stored by Adapters.
+ * Node đại diện cho một truy vấn/đường dẫn trong cây. Dữ liệu thật được các Adapter lưu giữ.
  *
- * Node can be a branch node (directory) or a leaf node (value).
+ * Node có thể là nút nhánh (thư mục) hoặc nút lá (giá trị).
  */
 export class Node {
   id: string;
@@ -45,11 +45,11 @@ export class Node {
   }
 
   /**
-   * Get a child node
+   * Lấy một nút con.
    * @param key
    * @returns {Node}
-   * @example node.get('apps/canvas/documents/test').put({name: 'Test Document'})
-   * @example node.get('apps').get('canvas').get('documents').get('test').on((value) => console.log(`Document name: ${value.name}`))
+   * @example node.get('ung-dung/tai-lieu/thu-nghiem').put({ten: 'Tài liệu thử'})
+   * @example node.get('ung-dung').get('tai-lieu').get('thu-nghiem').on((value) => console.log(`Tên: ${value.ten}`))
    */
   get(key: string): Node {
     const splitKey = key.split('/');
@@ -83,15 +83,15 @@ export class Node {
       adapter.set(this.id, { value: DIRECTORY_VALUE, updatedAt, expiresAt }),
     );
     const children = Object.keys(value);
-    // the following probably causes the same callbacks to be fired too many times
+    // Đoạn dưới có thể khiến cùng callback được kích hoạt nhiều lần hơn cần thiết.
     const childPromises = children.map((key) => this.get(key).put(value[key], updatedAt));
     await Promise.all([...promises, ...childPromises]);
   }
 
   /**
-   * Set a value to the node. If the value is an object, it will be converted to child nodes.
+   * Ghi giá trị vào nút. Nếu giá trị là đối tượng, mỗi thuộc tính sẽ trở thành một nút con.
    * @param value
-   * @example node.get('apps/canvas/documents/test').put({name: 'Test Canvas'})
+   * @example node.get('ung-dung/tai-lieu/thu-nghiem').put({ten: 'Tài liệu thử'})
    */
   async put(value: JsonValue, updatedAt = Date.now(), expiresAt?: number) {
     if (
@@ -113,12 +113,12 @@ export class Node {
       }
       for (const [id, { callback, recursion }] of this.parent.forEachSubscriptions) {
         if (!isDirectory(value) || recursion === 0) {
-          // TODO callback with the npub path instead of this.id?
+          // TODO: cân nhắc trả đường dẫn npub thay cho this.id.
           callback(value, this.id, updatedAt, () => {
             this.parent?.forEachSubscriptions.delete(id);
           });
         } else if (recursion > 0) {
-          // TODO fix
+          // TODO: hoàn thiện cơ chế đệ quy.
           //this.open(callback, recursion - 1);
         }
       }
@@ -126,7 +126,7 @@ export class Node {
   }
 
   /**
-   * Subscribe to all child nodes, returned in the same object
+   * Đăng ký mọi nút con và nhận chúng trong cùng một đối tượng tổng hợp.
    */
   open<T = JsonValue>(
     callback: Callback<T>,
@@ -146,7 +146,7 @@ export class Node {
   }
 
   /**
-   * Subscribe to the node's value
+   * Đăng ký nhận giá trị và các lần thay đổi của nút.
    */
   on<T = JsonValue>(
     callback: Callback<T>,
@@ -216,17 +216,17 @@ export class Node {
     this.onSubscriptions.forEach(({ callback, recursion }) => {
       if (recursion > 0 && isDirectory(value)) return;
       callback(
-        value && typeof value === 'object' ? { ...value } : value, // clone the value if it's an object
+        value && typeof value === 'object' ? { ...value } : value, // sao chép đối tượng trước khi thông báo
         this.id,
         updatedAt,
         () => {},
       );
     });
-    // Notify forEachSubscriptions similarly if needed.
+    // Thông báo forEachSubscriptions theo cơ chế tương tự khi cần.
   }
 
   /**
-   * Subscribe to child nodes
+   * Đăng ký thay đổi của từng nút con.
    * @param callback
    */
   forEach<T = JsonValue>(
@@ -234,7 +234,7 @@ export class Node {
     recursion: number = 0,
     typeGuard: TypeGuard<T> = (value: JsonValue) => value as T,
   ): Unsubscribe {
-    // should map be called list? on the other hand, map calls back for each change of child node separately
+    // Tên map/list cần được cân nhắc; callback hiện chạy riêng cho từng thay đổi của nút con.
     const id = this.counter++;
     const typedCallback: Callback = (value, path, updatedAt, unsubscribe) => {
       callback(typeGuard(value), path, updatedAt, unsubscribe);
@@ -243,7 +243,7 @@ export class Node {
     const latestMap = new Map<string, NodeValue<T | undefined>>();
 
     let adapterSubs: Unsubscribe[] = [];
-    const openUnsubs: Record<string, Unsubscribe> = {}; // Changed to a dictionary
+    const openUnsubs: Record<string, Unsubscribe> = {}; // Lưu hàm hủy đăng ký theo đường dẫn con.
 
     const unsubscribeFromAdapters = () => {
       adapterSubs.forEach((unsub) => unsub());
@@ -263,14 +263,14 @@ export class Node {
 
       if (recursion > 0 && value && isDirectory(value)) {
         if (!openUnsubs[childName]) {
-          // Check if an Unsubscribe exists for this child
+          // Kiểm tra nút con đã có hàm hủy đăng ký hay chưa.
           openUnsubs[childName] = this.get(childName).open(callback, recursion - 1);
         }
       } else {
         callback(value, path, updatedAt, () => {
           this.forEachSubscriptions.delete(id);
           unsubscribeFromAdapters();
-          Object.values(openUnsubs).forEach((unsub) => unsub()); // Unsubscribe all
+          Object.values(openUnsubs).forEach((unsub) => unsub()); // Hủy toàn bộ đăng ký con.
         });
       }
     };
@@ -285,14 +285,14 @@ export class Node {
     const unsubscribe = () => {
       this.forEachSubscriptions.delete(id);
       unsubscribeFromAdapters();
-      Object.values(openUnsubs).forEach((unsub) => unsub()); // Unsubscribe all
+      Object.values(openUnsubs).forEach((unsub) => unsub()); // Hủy toàn bộ đăng ký con.
     };
 
     return unsubscribe;
   }
 
   /**
-   * Same as on(), but will unsubscribe after the first callback
+   * Tương tự on(), nhưng tự hủy đăng ký sau callback đầu tiên.
    * @param callback
    */
   once<T = JsonValue>(

@@ -61,12 +61,12 @@ function useNodeStateBase<T = JsonValue>(
 }
 
 /**
- * Similar to React's useState, but for a Node's value. Lets you easily persist your application state locally or sync it over the network.
+ * Tương tự useState của React nhưng làm việc với giá trị của Node, nhờ đó trạng thái có thể lưu cục bộ hoặc đồng bộ qua mạng.
  * @param node
  * @param key
  * @param initialValue
  * @param once
- * @example const [value, setValue] = useNodeState(publicState, 'apps/canvas/documents/test/name', 'Untitled Canvas'})
+ * @example const [value, setValue] = useNodeState(publicState, 'ung-dung/tai-lieu/thu-nghiem/ten', 'Chưa đặt tên')
  */
 export function useNodeState<T = JsonValue>(
   node: Node,

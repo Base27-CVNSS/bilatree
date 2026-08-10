@@ -1,7 +1,7 @@
 import { Adapter, Callback, NodeValue, Unsubscribe } from '../types';
 
 /**
- * IndexedDB adapter that works in both main thread and service worker contexts
+ * Adapter IndexedDB hoạt động trong cả luồng chính và Service Worker.
  */
 export class IndexedDBAdapter implements Adapter {
   private dbName: string;
@@ -14,7 +14,7 @@ export class IndexedDBAdapter implements Adapter {
   constructor(dbName = 'treelike', storeName = 'keyval') {
     this.dbName = dbName;
     this.storeName = storeName;
-    // Use the appropriate IDBFactory depending on context
+    // Chọn IDBFactory phù hợp theo ngữ cảnh thực thi.
     this.idbFactory = typeof window !== 'undefined' ? window.indexedDB : self.indexedDB;
     this.dbReady = this.initDB();
   }
@@ -24,23 +24,23 @@ export class IndexedDBAdapter implements Adapter {
       const request = this.idbFactory.open(this.dbName, 1);
 
       request.onerror = () => {
-        console.error('IndexedDB error:', request.error);
+        console.error('Lỗi IndexedDB:', request.error);
         reject(request.error);
       };
 
       request.onblocked = () => {
-        console.warn('IndexedDB blocked. Please close other tabs/windows.');
+        console.warn('IndexedDB đang bị khóa. Hãy đóng các tab hoặc cửa sổ khác.');
       };
 
       request.onsuccess = () => {
         this.db = request.result;
 
-        // Handle connection errors
+        // Xử lý lỗi kết nối cơ sở dữ liệu.
         this.db.onerror = (event) => {
-          console.error('IndexedDB error:', (event as ErrorEvent).error);
+          console.error('Lỗi IndexedDB:', (event as ErrorEvent).error);
         };
 
-        // Handle version change (e.g., another tab/worker upgrades the DB)
+        // Đóng kết nối khi tab/worker khác nâng phiên bản cơ sở dữ liệu.
         this.db.onversionchange = () => {
           this.db?.close();
           this.db = null;
@@ -53,7 +53,7 @@ export class IndexedDBAdapter implements Adapter {
       request.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result;
         if (!db.objectStoreNames.contains(this.storeName)) {
-          // Create store with a compound index for path-based queries
+          // Tạo kho với chỉ mục ghép phục vụ truy vấn theo đường dẫn.
           const store = db.createObjectStore(this.storeName, { keyPath: 'path' });
           store.createIndex('pathIndex', 'path', { unique: true });
           store.createIndex('updatedAtIndex', 'updatedAt');
@@ -67,7 +67,7 @@ export class IndexedDBAdapter implements Adapter {
       await this.dbReady;
     }
     if (!this.db) {
-      throw new Error('Database not initialized');
+      throw new Error('Cơ sở dữ liệu chưa được khởi tạo');
     }
     const transaction = this.db.transaction(this.storeName, mode);
     return transaction.objectStore(this.storeName);
@@ -106,12 +106,12 @@ export class IndexedDBAdapter implements Adapter {
         };
 
         request.onerror = () => {
-          console.error('Error reading from IndexedDB:', request.error);
+          console.error('Lỗi đọc dữ liệu từ IndexedDB:', request.error);
           callback(undefined, path, undefined, () => this.removeCallback(path, callback));
         };
       })
       .catch((error) => {
-        console.error('IndexedDB get error:', error);
+        console.error('Lỗi lấy dữ liệu IndexedDB:', error);
         callback(undefined, path, undefined, () => {});
       });
 
@@ -121,7 +121,7 @@ export class IndexedDBAdapter implements Adapter {
 
   async set(path: string, value: NodeValue): Promise<void> {
     if (value.updatedAt === undefined) {
-      throw new Error(`Invalid value: ${JSON.stringify(value)}`);
+      throw new Error(`Giá trị không hợp lệ: ${JSON.stringify(value)}`);
     }
 
     try {
@@ -149,12 +149,12 @@ export class IndexedDBAdapter implements Adapter {
         };
 
         request.onerror = () => {
-          console.error('Error writing to IndexedDB:', request.error);
+          console.error('Lỗi ghi dữ liệu vào IndexedDB:', request.error);
           reject(request.error);
         };
       });
     } catch (error) {
-      console.error('IndexedDB set error:', error);
+      console.error('Lỗi đặt giá trị IndexedDB:', error);
       throw error;
     }
   }
@@ -184,11 +184,11 @@ export class IndexedDBAdapter implements Adapter {
         };
 
         request.onerror = () => {
-          console.error('Error listing from IndexedDB:', request.error);
+          console.error('Lỗi liệt kê dữ liệu từ IndexedDB:', request.error);
         };
       })
       .catch((error) => {
-        console.error('IndexedDB list error:', error);
+        console.error('Lỗi danh sách IndexedDB:', error);
       });
 
     this.addCallback(path, callback);
@@ -196,7 +196,7 @@ export class IndexedDBAdapter implements Adapter {
   }
 
   /**
-   * Delete expired entries. Can be called periodically for cleanup.
+   * Xóa bản ghi đã hết hạn; có thể gọi định kỳ để dọn dẹp.
    */
   async cleanup(): Promise<void> {
     try {
@@ -216,7 +216,7 @@ export class IndexedDBAdapter implements Adapter {
         }
       };
     } catch (error) {
-      console.error('IndexedDB cleanup error:', error);
+      console.error('Lỗi dọn dẹp IndexedDB:', error);
     }
   }
 }

@@ -6,9 +6,9 @@ import { NostrPublish, NostrSubscribe } from '../../treelike-nostr/src/types';
 import { useGroupNodeState, useNodeState } from './useNodeState.ts';
 
 /**
- * React hook to get a public state node with the given authors. A bit similar to React's useState.
+ * React hook lấy một nút trạng thái công khai theo danh sách tác giả; cách dùng gần với React useState.
  *
- * treelike-nostr peer dependency is required for this hook to work.
+ * Hook yêu cầu peer dependency treelike-nostr.
  *
  * @param authors
  * @param path
@@ -28,7 +28,7 @@ export function usePublicState<T = JsonValue>(
 }
 
 /**
- * Get the value of a node separately from each author. Returns a Map of authors to values.
+ * Lấy riêng giá trị nút của từng tác giả và trả về Map từ tác giả đến giá trị.
  * @param authors
  * @param path
  * @param typeGuard

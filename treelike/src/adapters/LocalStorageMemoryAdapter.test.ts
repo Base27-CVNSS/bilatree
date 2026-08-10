@@ -12,7 +12,7 @@ describe('LocalStorageMemoryAdapter', () => {
   });
 
   describe('get()', () => {
-    it('should retrieve the stored value for a given path', () => {
+    it('đọc giá trị đã lưu theo đường dẫn', () => {
       const mockCallback: Callback = vi.fn();
       adapter.set('somePath', { value: 'someValue', updatedAt: Date.now() });
       const unsubscribe: Unsubscribe = adapter.get('somePath', mockCallback);
@@ -28,7 +28,7 @@ describe('LocalStorageMemoryAdapter', () => {
   });
 
   describe('set()', () => {
-    it('should set the value at the given path', async () => {
+    it('ghi giá trị vào đường dẫn', async () => {
       await adapter.set('anotherPath', { value: 'newValue', updatedAt: Date.now() });
       const mockCallback: Callback = vi.fn();
       adapter.get('anotherPath', mockCallback);
@@ -43,7 +43,7 @@ describe('LocalStorageMemoryAdapter', () => {
   });
 
   describe('list()', () => {
-    it('should list child nodes under the given path', () => {
+    it('liệt kê các nút con trực tiếp', () => {
       const mockCallback: Callback = vi.fn();
       adapter.set('parent/child1', { value: 'childValue1', updatedAt: Date.now() });
       adapter.set('parent/child2', { value: 'childValue2', updatedAt: Date.now() });

@@ -29,6 +29,6 @@ export type Subscription = {
 };
 
 /**
- * Converts a JsonValue to a specific type
+ * Chuyển JsonValue sang một kiểu cụ thể.
  */
 export type TypeGuard<T> = (value: JsonValue) => T;

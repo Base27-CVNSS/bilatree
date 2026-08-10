@@ -10,7 +10,7 @@ const EVENT_KIND = 30078;
 const log = debug('nostree:ndk-adapter');
 
 /**
- * Stores and syncs data over [Nostr](https://nostr.com/) using the [Nostr Dev Kit](https://github.com/nostr-dev-kit/ndk).
+ * Lưu và đồng bộ dữ liệu qua [Nostr](https://nostr.com/) bằng [Nostr Dev Kit](https://github.com/nostr-dev-kit/ndk).
  */
 export default class NDKAdapter implements Adapter {
   seenValues = new Map<string, NodeValue>();
@@ -48,7 +48,7 @@ export default class NDKAdapter implements Adapter {
 
   async set(path: string, value: NodeValue) {
     if (value && value.updatedAt === undefined) {
-      throw new Error(`Invalid value: ${JSON.stringify(value)}`);
+      throw new Error(`Giá trị không hợp lệ: ${JSON.stringify(value)}`);
     }
 
     const seen = this.seenValues.get(path);
@@ -89,7 +89,7 @@ export default class NDKAdapter implements Adapter {
       {
         authors: this.authors,
         kinds: [EVENT_KIND],
-        // '#f': [path] // TODO we need support for this in strfry. otherwise won't scale to larger datasets
+        // '#f': [path] // TODO: cần strfry hỗ trợ bộ lọc này để mở rộng cho tập dữ liệu lớn.
       },
       (event) => {
         if (!event.created_at) {

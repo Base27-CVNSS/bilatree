@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Biểu trưng BilaTree</title>
+  <desc id="desc">Một cây dữ liệu cách điệu tạo bởi các nút kết nối</desc>
+  <defs>
+    <linearGradient id="bg" x1="18" y1="13" x2="111" y2="118" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#153D33"/><stop offset="1" stop-color="#071713"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="42" y1="29" x2="89" y2="83" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#75F2C3"/><stop offset="1" stop-color="#21B981"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#06261C" flood-opacity=".65"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="120" height="120" rx="31" fill="url(#bg)"/>
+  <rect x="4.75" y="4.75" width="118.5" height="118.5" rx="30.25" fill="none" stroke="#A3E8CF" stroke-opacity=".19" stroke-width="1.5"/>
+  <g filter="url(#shadow)">
+    <path d="M64 35v23M39 74h50M39 74v14M89 74v14M64 58v30" fill="none" stroke="url(#leaf)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="64" cy="30" r="12" fill="url(#leaf)"/>
+    <circle cx="39" cy="94" r="11" fill="url(#leaf)"/>
+    <circle cx="64" cy="94" r="11" fill="url(#leaf)"/>
+    <circle cx="89" cy="94" r="11" fill="url(#leaf)"/>
+    <circle cx="60" cy="26" r="3.5" fill="#DFFFF3" fill-opacity=".72"/>
+  </g>
+</svg>
