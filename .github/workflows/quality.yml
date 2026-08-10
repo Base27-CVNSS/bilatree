@@ -2,7 +2,7 @@ name: Kiểm tra chất lượng
 
 on:
   push:
-    branches-ignore: [main]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
