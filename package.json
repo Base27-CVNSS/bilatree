@@ -9,6 +9,9 @@
     "Long Ngo <Base27-CVNSS> (Vietnamese edition and enhancements)"
   ],
   "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
   "workspaces": [
     "treelike",
     "treelike-nostr",
@@ -17,7 +20,9 @@
   "scripts": {
     "build": "npm run build --workspace=treelike && npm run build --workspace=treelike-nostr && npm run build --workspace=treelike-hooks",
     "test": "npm run test --workspaces --if-present -- --run",
-    "site:check": "node --check site/app.js",
+    "site": "vite site --host 0.0.0.0",
+    "site:check": "node scripts/check-site.mjs",
+    "check": "npm run build && npm test && npm run site:check",
     "docs": "typedoc",
     "lint": "eslint --ext .ts,.tsx --fix ."
   },

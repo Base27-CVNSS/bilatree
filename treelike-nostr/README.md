@@ -1,12 +1,31 @@
-# 📡 treelike-nostr
+# 📡 `treelike-nostr` — Adapter Nostr cho BilaTree
 
-Adapter kết nối cây trạng thái `treelike` với mạng [Nostr](https://nostr.com/) thông qua [NDK](https://github.com/nostr-dev-kit/ndk). Gói này cho phép đọc trạng thái theo khóa công khai của tác giả và phát bản cập nhật đã ký đến relay.
+Gói này nối mô hình Node/Adapter của BilaTree với NDK và relay Nostr, phục vụ public state nhiều tác giả hoặc nhiều thiết bị.
+
+## Cài đặt
 
 ```bash
 npm install treelike treelike-nostr nostr-tools \
   @nostr-dev-kit/ndk @nostr-dev-kit/ndk-cache-dexie
 ```
 
-> Không đưa khóa bí mật hoặc dữ liệu riêng tư vào trạng thái công khai. Độ bền dữ liệu phụ thuộc chính sách của relay được chọn.
+## Thành phần
 
-Xem [kiến trúc và ví dụ tiếng Việt](../README.md).
+| Export | Vai trò |
+|---|---|
+| `NDKAdapter` | đọc/ghi node thông qua sự kiện Nostr |
+| `publicState` | tạo trạng thái công khai theo tác giả và đường dẫn |
+| `PublicKey` / `Hex` | chuẩn hóa khóa và biểu diễn hex |
+
+## Nguyên tắc an toàn
+
+- Sự kiện được ký **không đồng nghĩa** nội dung được mã hóa.
+- Relay có thể sao chép nội dung và quan sát metadata.
+- Không lưu private key dạng rõ trong Web Storage.
+- Ứng dụng phải xác thực kiểu dữ liệu nhận từ relay.
+
+Đọc [phần adapter Nostr trong tài liệu kiến trúc](../tai-lieu/KIEN_TRUC.md#ndkadapter).
+
+## Giấy phép và nguồn gốc
+
+MIT. Core nguyên bản do Martti Malmi/irislib phát triển; bản tài liệu BilaTree do Long Ngo/Base27-CVNSS phát triển. Xem [NOTICE](../NOTICE.md).
