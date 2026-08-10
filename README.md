@@ -12,7 +12,8 @@
 [![Giao diện](https://img.shields.io/badge/Giao_diện-Tiếng_Việt-dc2626?style=for-the-badge)](https://base27-cvnss.github.io/bilatree/)
 
 [🌐 Trải nghiệm BilaTree](https://base27-cvnss.github.io/bilatree/) ·
-[📘 Tài liệu API](https://treelike.iris.to/) ·
+[📘 API tiếng Việt](tai-lieu/API_VI.md) ·
+[🏗️ Kiến trúc chuyên sâu](tai-lieu/KIEN_TRUC.md) ·
 [💻 Mã nguồn](https://github.com/Base27-CVNSS/bilatree) ·
 [🐞 Báo lỗi](https://github.com/Base27-CVNSS/bilatree/issues)
 
@@ -124,6 +125,15 @@ Vì lõi không phụ thuộc phương tiện vận chuyển, nhà phát triển
 | `LocalStorageMemoryAdapter` |    ✅     |     Trong tiến trình      | Kết hợp tốc độ bộ nhớ và lưu bền         |
 | `NDKAdapter`                | Qua relay | Nhiều thiết bị/người dùng | Trạng thái công khai ký bằng khóa Nostr  |
 
+## 📚 Tài liệu kỹ thuật chuyên sâu
+
+| Tài liệu | Nội dung |
+|---|---|
+| [Kiến trúc BilaTree](tai-lieu/KIEN_TRUC.md) | bản chất Node/Adapter, vòng đời `put`, subscription, latest-wins, Nostr, biên an toàn và giới hạn |
+| [API BilaTree bằng tiếng Việt](tai-lieu/API_VI.md) | bảng tham số `Node`, `Adapter`, React Hooks, callback và quy ước sử dụng an toàn |
+
+Hai tài liệu này bổ sung lớp giải thích sâu cho demo trực quan: website giúp nhìn thấy hành vi; tài liệu giúp hiểu vì sao hệ thống hành xử như vậy.
+
 ## 🧪 Phòng thử giao diện
 
 Trang [BilaTree tiếng Việt](https://base27-cvnss.github.io/bilatree/) minh họa trực tiếp ba hành vi:
@@ -160,8 +170,7 @@ Yêu cầu Node.js 20 trở lên và npm.
 git clone https://github.com/Base27-CVNSS/bilatree.git
 cd bilatree
 npm ci
-npm run build
-npm test
+npm run check
 ```
 
 Kiểm tra riêng website tĩnh:
@@ -187,6 +196,8 @@ npm run site:check
 - Thiết kế trải nghiệm lấy cảm hứng từ [Iris](https://iris.to/) nhưng BilaTree là dự án tài liệu/demo độc lập, không tự nhận là sản phẩm chính thức của Iris.
 
 Việc ghi rõ nguồn gốc giữ nguyên quyền tác giả và giúp người dùng phân biệt phần lõi thượng nguồn với phần Việt hóa/mở rộng.
+
+Xem thêm [AUTHORS.md](AUTHORS.md) và [NOTICE.md](NOTICE.md) để biết phạm vi thay đổi của bản BilaTree.
 
 ## 📄 Giấy phép
 
